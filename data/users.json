@@ -1,0 +1,48 @@
+{
+    "admins": [
+        {
+            "id": 1,
+            "nom": "admin1",
+            "prenom": "admin1",
+            "login": "admin1",
+            "password": "123"
+        },
+        {
+            "id": 2,
+            "nom": "admin2",
+            "prenom": "admin2",
+            "login": "admin2",
+            "password": "123"
+        },
+        {
+            "id": 3,
+            "nom": "admin3",
+            "prenom": "admin3",
+            "login": "admin3",
+            "password": "123"
+        }
+    ],
+    "gestionnaire": [
+        {
+            "id": 1,
+            "nom": "gestionnaire1",
+            "prenom": "gestionnaire1",
+            "login": "gestionnaire1",
+            "password": "123"
+        },
+        {
+            "id": 2,
+            "nom": "gestionnaire2",
+            "prenom": "gestionnaire2",
+            "login": "gestionnaire2",
+            "password": "123"
+        },
+        {
+            "id": 3,
+            "nom": "gestionnaire3",
+            "prenom": "gestionnaire3",
+            "login": "gestionnaire3",
+            "password": "123"
+        }
+    ]
+}
