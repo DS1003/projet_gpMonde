@@ -191,9 +191,6 @@
             </div>
         </aside>
 
-
-
-
         <main id="main-content" class="main-content flex-grow w-full p-8 shifted">
             <div class="container mx-auto">
                 <h1 class="text-2xl font-bold mb-4">Liste des Cargaisons</h1>
@@ -233,9 +230,7 @@
             </div>
         </main>
     </div>
-
-
-
+    
     <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-8 rounded-lg shadow-lg modal-content">
             <div class="pr-4">
