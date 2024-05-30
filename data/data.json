@@ -1,0 +1,63 @@
+[
+    {
+        "numero": "CGN315",
+        "prix": "51",
+        "lieu-depart": "67, Rue des Plantes, Quartier du Petit-Montrouge, Paris 14e Arrondissement, Paris, Île-de-France, France métropolitaine, 75014, France",
+        "lieu-arrive": "11, Rue Quinault, Quartier Necker, Paris 15e Arrondissement, Paris, Île-de-France, France métropolitaine, 75015, France",
+        "distance": "2.52",
+        "date-depart": "2015 Jan 01",
+        "date-arrivee": "2015 Jan 01",
+        "type": "routiere",
+        "type-produit": [
+            "alimentaire",
+            "incassable",
+            "fragile"
+        ],
+        "poids_max": "25",
+        "nbProduits_max": "25",
+        "statut": "en-attente",
+        "etat": "ferme",
+        "produits": [
+            {
+                "code": "P001",
+                "name": "AirPods",
+                "quantite": "1",
+                "poids": "10",
+                "prix": "",
+                "type": "incassable",
+                "expediteur": {
+                    "prenomNom": "Seydina Mouhammad Diop",
+                    "adresse": "Sicap Liberté 6 Villa 6059 Dakar, Sénégal",
+                    "telephone": "705813257",
+                    "email": "mouhaleecr7@gmail.com"
+                },
+                "receveur": {
+                    "prenomNom": "Ndeye Amy Sène",
+                    "adresse": "Parcelles Assainies Unité 25 Villa 723 Dakar, Sénégal",
+                    "telephone": "771443470",
+                    "email": "ndeyeamysen@gmail.com"
+                }
+            },
+            {
+                "code": "P002",
+                "name": "Téléphone Iphone Xr 128Go Blanc",
+                "quantite": "1",
+                "poids": "0.800",
+                "prix": "10000",
+                "type": "fragile",
+                "expediteur": {
+                    "prenomNom": "Seydina Mouhammad Diop",
+                    "adresse": "Sicap Liberté 6 Villa 6059 Dakar, Sénégal",
+                    "telephone": "705813257",
+                    "email": "mouhaleecr7@gmail.com"
+                },
+                "receveur": {
+                    "prenomNom": "Ndeye Amy Sène",
+                    "adresse": "Parcelles Assainies Unité 25 Villa 723 Dakar, Sénégal",
+                    "telephone": "771443470",
+                    "email": "ndeyeamysen@gmail.com"
+                }
+            }
+        ]
+    }
+]

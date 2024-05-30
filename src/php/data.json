@@ -1,0 +1,101 @@
+[
+    {
+        "numero": "CGN315",
+        "poids_max": "25",
+        "prix": "51",
+        "depart": "67, Rue des Plantes, Quartier du Petit-Montrouge, Paris 14e Arrondissement, Paris, \u00cele-de-France, France m\u00e9tropolitaine, 75014, France",
+        "arrivee": "11, Rue Quinault, Quartier Necker, Paris 15e Arrondissement, Paris, \u00cele-de-France, France m\u00e9tropolitaine, 75015, France",
+        "distance": "2.52",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ferme"
+    },
+    {
+        "numero": "CGN875",
+        "poids_max": "4",
+        "prix": "7",
+        "depart": "4, Place Georges Besse, Rives de Seine, Boulogne-Billancourt, Hauts-de-Seine, \u00cele-de-France, France m\u00e9tropolitaine, 92100, France",
+        "arrivee": "Gare Montparnasse - Vaugirard, Boulevard de Vaugirard, Quartier Necker, Paris 15e Arrondissement, Paris, \u00cele-de-France, France m\u00e9tropolitaine, 75015, France",
+        "distance": "6.53",
+        "type": "aerienne",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN860",
+        "poids_max": "58",
+        "prix": "97",
+        "depart": "12.528758479273609, -12.830432402213557",
+        "arrivee": "13.96172278184245, -11.664886448530435",
+        "distance": "203.23",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN179",
+        "poids_max": "81",
+        "prix": "42",
+        "depart": "Pr\u00e9fecture de Gaoual, R\u00e9gion de Bok\u00e9, Guin\u00e9e",
+        "arrivee": "Balledji, Communaut\u00e9 rurale de Sadatou, Arrondissement de K\u00e9ni\u00e9ba, D\u00e9partement de Bakel, R\u00e9gion de Tambacounda, S\u00e9n\u00e9gal",
+        "distance": "187.58",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN709",
+        "poids_max": "83",
+        "prix": "61",
+        "depart": "Yari Dakhou, Communaut\u00e9 rurale de Darou Mousty, Arrondissement de Darou Mousty, D\u00e9partement de K\u00e9b\u00e9mer, Louga, S\u00e9n\u00e9gal",
+        "arrivee": "Kenieto, Cercle de Bafoulab\u00e9, Kayes, Mali",
+        "distance": "596.39",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN336",
+        "poids_max": "87",
+        "prix": "74",
+        "depart": "Yari Dakhou, Communaut\u00e9 rurale de Darou Mousty, Arrondissement de Darou Mousty, D\u00e9partement de K\u00e9b\u00e9mer, Louga, S\u00e9n\u00e9gal",
+        "arrivee": "Kenieto, Cercle de Bafoulab\u00e9, Kayes, Mali",
+        "distance": "596.39",
+        "type": "aerienne",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN317",
+        "poids_max": "87",
+        "prix": "74",
+        "depart": "Yari Dakhou, Communaut\u00e9 rurale de Darou Mousty, Arrondissement de Darou Mousty, D\u00e9partement de K\u00e9b\u00e9mer, Louga, S\u00e9n\u00e9gal",
+        "arrivee": "Kenieto, Cercle de Bafoulab\u00e9, Kayes, Mali",
+        "distance": "596.39",
+        "type": "aerienne",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN356",
+        "poids_max": "21",
+        "prix": "69",
+        "depart": "S\u00e9libabi, Guidimaka, Mauritanie",
+        "arrivee": "Chamen, Sami, Kuntaur, Division de Central River, Gambie",
+        "distance": "292.16",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    },
+    {
+        "numero": "CGN298",
+        "poids_max": "69",
+        "prix": "95",
+        "depart": "Pr\u00e9fecture de Koundara, R\u00e9gion de Bok\u00e9, Guin\u00e9e",
+        "arrivee": "Tintiba, Cercle de Kayes, Kayes, Mali",
+        "distance": "259.36",
+        "type": "routiere",
+        "statut": "en-attente",
+        "etat": "ouvert"
+    }
+]

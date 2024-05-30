@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+    <script src="https://kit.fontawesome.com/d2ba3c872c.js" crossorigin="anonymous"></script>
+    <style>
+        button:hover i {
+            color: white !important;
+        }
+
+        .notif:hover {
+            color: #242424;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen w-screen bg-gray-100 flex" x-data="{ isAsideOpen: true }">
+
+    <aside class="flex-col justify-center bg-white min-h-screen w-2/12 transition-all duration-300 shadow-xl"
+        :class="isAsideOpen ? 'block' : 'hidden'">
+        <div class="logo h-18 w-full flex  justify-center">
+            <img src="../public/img/Frame 348.png" alt="" class="h-8/12 w-8/12 cursor-pointer">
+        </div>
+        <span class="font-bold text-center justify-center flex text-purple-600 text-[1.5rem] mt-8">Menu</span>
+        <!-- <hr class="border-purple-700 border-1 mt-4"> -->
+        <div class="buttons flex flex-col justify-center items-center gap-4 mt-12">
+            <button
+                class="h-[4%] w-[95%] rounded hover:bg-purple-600 text-purple-600 font-bold text-[1.1rem] flex p-4 items-center gap-3 hover:text-white hover:shadow-lg">
+                <img src="../public/img/cargaison.png" alt="" class="h-7">
+                Cargaison
+            </button>
+            <button
+                class="h-[4%] w-[95%] rounded hover:bg-purple-600 text-purple-600 font-bold text-[1.1rem] flex p-4 items-center gap-3 hover:text-white hover:shadow-lg">
+                <i class="fa-solid fa-boxes-stacked" style="color: #9333ea;"></i>
+                Produits
+            </button>
+            <button
+                class="h-[4%] w-[95%] rounded hover:bg-purple-600 text-purple-600 font-bold text-[1.1rem] flex p-4 items-center gap-3 hover:text-white hover:shadow-lg">
+                <i class="fa-solid fa-gear" style="color: #9333ea;"></i>
+                Paramètres
+            </button>
+        </div>
+    </aside>
+
+    <div class="main w-full flex flex-col" :class="isAsideOpen ? 'ml-0' : 'ml-0'">
+        <nav class="ml-2 h-[8%] w-[99%] border-b-2 bg-white rounded-lg flex items-center shadow-lg">
+            <div class="ml-4 h-14 w-14 rounded-full flex justify-center items-center">
+                <i class="burger-menu fa-solid fa-bars fa-lg cursor-pointer" style="color: #000000;"
+                    @click="isAsideOpen = !isAsideOpen"></i>
+            </div>
+            <input type="search" class="h-12 w-3/12 ml-4 rounded-full border-2 border-gray p-4"
+                placeholder="Rechercher...">
+            <!-- Photo de profil  -->
+            <a href="https://github.com/DS1003"
+                class="h-14 w-14 relative left-[65%] bg-gray-700 rounded-full flex justify-center cursor-pointer hover:border-4 hover:border-gray-400 items-center overflow-hidden shadow-lg">
+                <img src="./public/img/WhatsApp Image 2024-05-23 at 08.58.02.jpeg" alt=""
+                    href="https://github.com/DS1003" class=" w-[100%] rounded-full">
+            </a>
+            <div class=" h-14 w-14 relative left-[45%] rounded-full flex justify-center items-center">
+                <i class="notif fa-solid fa-bell fa-lg cursor-pointer" style="color: #9333ea;"></i>
+            </div>
+            <div class="h-14 relative left-[45%] rounded-full flex justify-center items-center">
+                <span class="font-bold">Seydina Mouhammad Diop</span>
+            </div>
+        </nav>
+
+
+        <div class="w-[100%] h-full">
+
+            <div class="title h-14 mt-8 flex gap-[70%]">
+                <span class="font-bold text-[2rem] ml-10 text-purple-700">Cargaisons</span>
+                <!-- Bouton ajouter -->
+                <div class="w-[15rem] xl:right-18">
+                    <a href="#"
+                        class="bg-purple-700 px-6 py-3 text-white font-mono font-semibold rounded-xl shadow hover:shadow-xl hover:text-white flex justify-between items-center gap-2"
+                        id="open-cargo-modal">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                        Ajouter cargaison
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- modal dialog -->
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden"
+                id="cargo-modal">
+                <div class="relative w-full max-w-6xl h-[80%] bg-white rounded-lg shadow-lg overflow-y-auto">
+                    <div class="absolute top-0 right-0 mt-4 mr-4">
+                        <button type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none"
+                            onclick="closeModal()">
+                            <span class="sr-only">Fermer</span>
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="flex h-full">
+                        <!-- Left side for the form -->
+                        <div class="w-1/2 p-8 overflow-y-auto">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-semibold text-gray-900" id="modal-title">Ajouter une cargaison
+                                </h3>
+                                <button type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none"
+                                    onclick="closeModal()">
+                                    <span class="sr-only">Fermer</span>
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            <form id="cargo-form" class="space-y-6">
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="cargo-code">Code de
+                                        cargaison</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="cargo-code" type="text" readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="limitation-type">Type de
+                                        limitation</label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="limitation-type" onchange="toggleLimitationFields()">
+                                        <option value="">Sélectionnez un type</option>
+                                        <option value="poids">Limite par poids</option>
+                                        <option value="produits">Limite par produits</option>
+                                    </select>
+                                    <span class="error-message text-red-500 text-sm hidden"
+                                        id="error-limitation-type">Veuillez sélectionner un type de limitation.</span>
+                                </div>
+                                <div id="poids-max-div" class="hidden">
+                                    <label class="block text-gray-700 font-bold mb-2" for="poids-max">Poids
+                                        maximum</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="poids-max" type="number" placeholder="Entrez le poids maximum">
+                                    <span class="error-message text-red-500 text-sm hidden"
+                                        id="error-poids-max">Veuillez entrer un poids maximum valide.</span>
+                                </div>
+                                <div id="produits-max-div" class="hidden">
+                                    <label class="block text-gray-700 font-bold mb-2" for="produits-max">Produits
+                                        maximum</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="produits-max" type="number"
+                                        placeholder="Entrez le nombre maximum de produits">
+                                    <span class="error-message text-red-500 text-sm hidden"
+                                        id="error-produits-max">Veuillez entrer un nombre maximum de produits
+                                        valide.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="depart">Lieu de
+                                        départ</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="depart" type="text" placeholder="Sélectionnez sur la carte" readonly>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-depart">Veuillez
+                                        sélectionner un lieu de départ.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="arrivee">Lieu
+                                        d'arrivée</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="arrivee" type="text" placeholder="Sélectionnez sur la carte" readonly>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-arrivee">Veuillez
+                                        sélectionner un lieu d'arrivée.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="distance">Distance
+                                        (km)</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="distance" type="number" placeholder="Calculée automatiquement" readonly>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-distance">La
+                                        distance doit être calculée automatiquement.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="type">Type de
+                                        cargaison</label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="type">
+                                        <option value="">Sélectionnez un type</option>
+                                        <option value="maritime">Maritime</option>
+                                        <option value="aerienne">Aérienne</option>
+                                        <option value="routiere">Routière</option>
+                                    </select>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-type">Veuillez
+                                        sélectionner un type de cargaison.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="date-depart">Date de
+                                        départ</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="date-depart" type="date">
+                                    <span class="error-message text-red-500 text-sm hidden"
+                                        id="error-date-depart">Veuillez sélectionner une date de départ.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="date-arrivee">Date
+                                        d'arrivée</label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="date-arrivee" type="date">
+                                    <span class="error-message text-red-500 text-sm hidden"
+                                        id="error-date-arrivee">Veuillez sélectionner une date d'arrivée.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="statut">État
+                                        d'avancement</label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="statut" readonly>
+                                        <option value="en-attente" selected>En attente</option>
+                                    </select>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-statut">Veuillez
+                                        sélectionner un état d'avancement.</span>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2" for="etat">État global</label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="etat" readonly>
+                                        <option value="ouvert" selected>Ouvert</option>
+                                    </select>
+                                    <span class="error-message text-red-500 text-sm hidden" id="error-etat">Veuillez
+                                        sélectionner un état global.</span>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button id="btn-add-cargo"
+                                        class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        type="button">Ajouter la cargaison</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Right side for the map -->
+                        <div class="w-1/2 h-full">
+                            <div id="map" class="h-full w-full border-t border-gray-200"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function closeModal() {
+                    document.getElementById('cargo-modal').classList.add('hidden');
+                    
+                }
+
+                function toggleLimitationFields() {
+                    const limitationType = document.getElementById('limitation-type').value;
+                    const poidsMaxDiv = document.getElementById('poids-max-div');
+                    const produitsMaxDiv = document.getElementById('produits-max-div');
+
+                    if (limitationType === 'poids') {
+                        poidsMaxDiv.classList.remove('hidden');
+                        produitsMaxDiv.classList.add('hidden');
+                    } else if (limitationType === 'produits') {
+                        poidsMaxDiv.classList.add('hidden');
+                        produitsMaxDiv.classList.remove('hidden');
+                    } else {
+                        poidsMaxDiv.classList.add('hidden');
+                        produitsMaxDiv.classList.add('hidden');
+                    }
+                }
+
+                // Assume this function is called when the modal is opened to generate and set the cargo code
+                function generateCargoCode() {
+                    const cargoCode = 'CARGO-' + Math.floor(Math.random() * 1000000);
+                    document.getElementById('cargo-code').value = cargoCode;
+                }
+
+                // Initialize map (using Leaflet.js as an example)
+                document.addEventListener("DOMContentLoaded", function () {
+                    var map = L.map('map').setView([51.505, -0.09], 13);
+                    generateCargoCode();
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                });
+
+                function closeModal() {
+                    document.getElementById('cargo-modal').classList.add('hidden');
+                    
+                }
+            </script>
+
+            <!-- Include Leaflet CSS and JS -->
+            <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+
+
+
+            <script>
+                function closeModal() {
+                    document.getElementById('cargo-modal').classList.add('hidden');
+                }
+
+                const openModalBtn = document.getElementById('open-cargo-modal');
+                const cargoModal = document.getElementById('cargo-modal');
+                const cargoFormContainer = document.getElementById('cargo-form-container');
+
+                openModalBtn.addEventListener('click', () => {
+                    cargoModal.classList.remove('hidden');
+                    createCargoForm();
+                });
+
+                // Fermer le modal
+                cargoModal.addEventListener('click', (event) => {
+                    if (event.target === cargoModal) {
+                        cargoModal.classList.add('hidden');
+                    }
+                });
+            </script>
+
+            <div class="ml-8 mr-8 grid-cols-1 md:grid-cols-5 items-start px-4 xl:p-0 gap-y-4 md:gap-6 mt-6">
+                <div class="col-span-5 bg-white p-6 rounded-xl border border-gray-50">
+                    <h2 class="text-sm text-gray-600 font-bold tracking-wide mb-4">Filtrer les Cargaisons</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <input id="filter-numero" type="text" placeholder="Filtrer par Numéro"
+                            class="py-2 px-4 border rounded-lg">
+                        <input id="filter-dateDep" type="date" placeholder="Filtrer par date de départ"
+                            class="py-2 px-4 border rounded-lg">
+                        <input id="filter-dateArv" type="date" placeholder="Filtrer par date d'arrivée"
+                            class="py-2 px-4 border rounded-lg">
+                        <input id="filter-depart" type="text" placeholder="Filtrer par Départ"
+                            class="py-2 px-4 border rounded-lg">
+                        <input id="filter-arrivee" type="text" placeholder="Filtrer par Arrivée"
+                            class="py-2 px-4 border rounded-lg">
+                        <!-- filtre par type de cargaison -->
+                        <select name="filter-type" id="filter-type" class="py-2 px-4 pr-2 border rounded-lg">
+                            <option value="" class="py-2 px-4 border rounded-lg">Filtrer par Type</option>
+                            <option value="maritime" class="py-2 px-4 border rounded-lg">Maritime</option>
+                            <option value="aerienne" class="py-2 px-4 border rounded-lg">Aérienne</option>
+                            <option value="routiere" class="py-2 px-4 border rounded-lg">Routière</option>
+                        </select>
+                    </div>
+                    <table class="min-w-full bg-white">
+                        <thead class="bg-purple-700 h-14">
+                            <tr class="rounded-[1rem]">
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Numéro</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Poids Max (kg)</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Produits Max</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Départ</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Arrivée</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Distance (km)</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Type</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Statut</th>
+                                <th
+                                    class="py-2 px-4 border-b border-gray-200 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    État</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cargo-table-body" class="divide-y divide-gray-200">
+                            <!-- Data will be dynamically loaded here -->
+                            <tr>
+                                <td class="py-2 px-4 text-sm text-gray-500">CGN860</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">58</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">97</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">12.528758479273609, -12.830432402213557</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">13.96172278184245, -11.664886448530435</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">203.23</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">routiere</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">en-attente</td>
+                                <td class="py-2 px-4 text-sm">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">ouvert</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 text-sm text-gray-500">CGN860</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">58</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">97</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">12.528758479273609, -12.830432402213557</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">13.96172278184245, -11.664886448530435</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">203.23</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">routiere</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">en-attente</td>
+                                <td class="py-2 px-4 text-sm">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">fermer</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 text-sm text-gray-500">CGN860</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">58</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">97</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">12.528758479273609, -12.830432402213557</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">13.96172278184245, -11.664886448530435</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">203.23</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">routiere</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">en-attente</td>
+                                <td class="py-2 px-4 text-sm">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">ouvert</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 text-sm text-gray-500">CGN860</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">58</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">97</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">12.528758479273609, -12.830432402213557</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">13.96172278184245, -11.664886448530435</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">203.23</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">routiere</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">en-attente</td>
+                                <td class="py-2 px-4 text-sm">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">ouvert</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 text-sm text-gray-500">CGN860</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">58</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">97</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">12.528758479273609, -12.830432402213557</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">13.96172278184245, -11.664886448530435</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">203.23</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">routiere</td>
+                                <td class="py-2 px-4 text-sm text-gray-500">en-attente</td>
+                                <td class="py-2 px-4 text-sm">
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">ouvert</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination" class="flex justify-end mt-4"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
