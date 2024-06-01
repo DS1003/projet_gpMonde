@@ -42,12 +42,12 @@
             </button>
             <button
                 class="h-[4%] w-[95%] rounded hover:bg-purple-600 text-purple-600 font-bold text-[1.1rem] flex p-4 items-center gap-3 hover:text-white hover:shadow-lg">
-                <i class="fa-solid fa-boxes-stacked" style="color: #9333ea;"></i>
+                <img src="./public/img/retour-de-colis.png" alt="" class="h-7">
                 Produits
             </button>
             <button
                 class="h-[4%] w-[95%] rounded hover:bg-purple-600 text-purple-600 font-bold text-[1.1rem] flex p-4 items-center gap-3 hover:text-white hover:shadow-lg">
-                <i class="fa-solid fa-gear" style="color: #9333ea;"></i>
+                <img src="./public/img/reglage-de-legaliseur.png" alt="" class="h-7">
                 Paramètres
             </button>
         </div>
@@ -254,7 +254,7 @@
             <script>
                 function closeModal() {
                     document.getElementById('cargo-modal').classList.add('hidden');
-                    
+
                 }
 
                 function toggleLimitationFields() {
@@ -282,7 +282,8 @@
 
                 // Initialize map (using Leaflet.js as an example)
                 document.addEventListener("DOMContentLoaded", function () {
-                    var map = L.map('map').setView([51.505, -0.09], 13);
+                    // Initialize the map and set its view to the coordinates of Senegal
+                    var map = L.map('map').setView([14.4974, -14.4524], 6);
                     generateCargoCode();
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -291,7 +292,7 @@
 
                 function closeModal() {
                     document.getElementById('cargo-modal').classList.add('hidden');
-                    
+
                 }
             </script>
 
